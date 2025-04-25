@@ -1,0 +1,138 @@
+/* Scoped styles for the youtube-video block */
+.youtube-video {
+  line-height: 0; /* Prevents potential extra space below inline elements */
+  margin-bottom: 1rem; /* Default bottom margin */
+
+  /* Style for error state */
+  &.youtube-video-error {
+    border: 1px solid red;
+    background-color: #ffeeee;
+    padding: 1rem;
+    color: red;
+    text-align: center;
+    line-height: initial;
+  }
+}
+
+.youtube-video-container {
+  position: relative;
+  width: 100%;
+  /* Maintain a 16:9 aspect ratio */
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: #000; /* Fallback/loading background */
+
+  /* Improve focus indication when the button inside gets focus */
+  &:has(.youtube-play-button:focus-visible) {
+    outline: 2px solid var(--link-color, #007bff);
+    outline-offset: 2px;
+  }
+}
+
+.youtube-thumbnail {
+  width: 100%;
+  height: 100%;
+  display: block;
+
+  picture,
+  img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    /* Ensure image covers the container */
+    object-fit: cover;
+  }
+}
+
+.youtube-play-button {
+  /* Positioning */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+
+  /* Appearance */
+  background: rgba(0, 0, 0, 0.6);
+  border: none;
+  border-radius: 50%; /* Circular button */
+  width: 64px; /* Size of the button */
+  height: 64px;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+
+  /* Play icon using pseudo-element (triangle) */
+  &::before {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 14px 0 14px 22px; /* Triangle size */
+    border-color: transparent transparent transparent white;
+    margin-left: 5px; /* Nudge triangle slightly right for visual centering */
+    transition: transform 0.2s ease;
+  }
+
+  /* Hover effect */
+  &:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: translate(-50%, -50%) scale(1.1);
+    &::before {
+        transform: scale(1.05);
+    }
+  }
+
+  /* Focus state - visible focus indicator */
+  &:focus-visible {
+    outline: 3px solid white;
+    outline-offset: 2px;
+    background: rgba(0, 0, 0, 0.8); /* Same as hover */
+  }
+}
+
+.youtube-iframe {
+  /* Iframe takes full container size */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none; /* Remove default iframe border */
+}
+
+/* Styles when no thumbnail is provided */
+.youtube-no-thumbnail {
+  background-color: #222; /* Dark placeholder background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Center the button when there's no background image */
+  .youtube-play-button {
+    position: static; /* Override absolute positioning */
+    transform: none; /* Override centering transform */
+
+    &:hover {
+        transform: scale(1.1); /* Keep scale on hover */
+    }
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .youtube-play-button {
+    width: 50px;
+    height: 50px;
+
+    &::before {
+      border-width: 10px 0 10px 16px; /* Smaller triangle */
+      margin-left: 3px;
+    }
+  }
+}
