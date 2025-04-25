@@ -1,0 +1,56 @@
+.slider-container {
+  position: relative;
+}
+
+.slider {
+  max-height: 500px;
+  margin: 0 auto; /* Center the slider */
+}
+
+.slider > div {
+    padding: 0 !important;
+}
+
+.slider-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  z-index: 10;
+}
+
+.slider-button-prev {
+  left: 10px;
+}
+
+.slider-button-next {
+  right: 10px;
+}
+
+.slider-button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .slider {
+    max-height: 400px;
+  }
+  .slider-button {
+    padding: 8px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .slider {
+    max-height: 300px;
+  }
+  .slider-button {
+    padding: 6px 10px;
+  }
+}
