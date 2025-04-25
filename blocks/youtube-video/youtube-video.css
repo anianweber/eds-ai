@@ -1,0 +1,98 @@
+.youtube-video {
+  position: relative;
+  /* Default Aspect Ratio 16:9 */
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  background-color: #000; /* Fallback background while loading or if broken */
+
+  .video-placeholder,
+  .youtube-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .video-placeholder {
+    cursor: pointer;
+    display: block; /* Ensure the placeholder div takes space */
+
+    picture {
+        display: block; /* Ensure picture takes space */
+        width: 100%;
+        height: 100%;
+
+        img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Cover the container area */
+            position: absolute; /* Needed to layer correctly with button */
+            top: 0;
+            left: 0;
+        }
+    }
+
+    .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      width: 64px; /* Adjust size as needed */
+      height: 64px;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      opacity: 0.85;
+      z-index: 1; /* Ensure button is above image */
+
+      svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+      }
+
+      &:hover,
+      &:focus {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 1;
+        outline: none;
+      }
+
+       /* Improve focus visibility for accessibility */
+       &:focus-visible {
+            outline: 3px solid Highlight;
+            /* For browsers not supporting Highlight: */
+            outline: 3px solid blue; 
+            outline-offset: 2px;
+            opacity: 1; /* Ensure visible on focus */
+       }
+    }
+  }
+
+  &.invalid {
+      padding-bottom: 0; /* Collapse block if invalid */
+      height: auto; /* Allow showing error message potentially */
+      min-height: 50px; /* Minimum height to show it's there */
+      background-color: #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #555;
+      text-align: center;
+      font-style: italic;
+
+      &::before {
+          content: 'Invalid YouTube Video Block Configuration';
+          padding: 1em;
+      }
+  }
+}
