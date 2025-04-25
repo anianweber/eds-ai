@@ -132,8 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
         method: 'POST',
         body: formData
       })
-      .then(response => response.json())
-      .then(data => {
+      .then(() => {
         // Hide loading spinner
         loadingSpinner.classList.remove('ai-visible');
         loadingSpinner.classList.add('ai-hidden');
@@ -141,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Show result with link
         resultContainer.classList.remove('ai-hidden');
         resultContainer.classList.add('ai-visible');
-        const link = `https://${formData.get("ticketNumber")}--eds-ai.anianweber.aem.page/${formData.get("componentPath")}`
+        const link = `https://${formData.get("ticketNumber")}--eds-ai--anianweber.aem.page${formData.get("componentPath")}`
         resultLink.href = link;
         resultLink.textContent = link;
       })
