@@ -8,7 +8,7 @@ function getYouTubeVideoId(url) {
   let videoId = null;
   try {
     const urlObj = new URL(url);
-    const { hostname, pathname, searchParams } = urlObj;
+    const {hostname, pathname, searchParams} = urlObj;
 
     if (hostname.includes('youtube.com')) {
       if (pathname.includes('/watch')) {
@@ -106,7 +106,7 @@ export default function decorate(block) {
     wrapper.style.paddingBottom = ''; // Remove padding aspect ratio hack for iframe
   };
 
-  wrapper.addEventListener('click', loadVideo, { once: true });
+  wrapper.addEventListener('click', loadVideo, {once: true});
   // Also allow activation via Enter/Space for accessibility on the button
   playButton.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
