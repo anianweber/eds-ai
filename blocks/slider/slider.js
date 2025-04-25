@@ -1,86 +1,109 @@
 export default function decorate(block) {
-  const slides = Array.from(block.children);
-  let currentSlide = 0;
-  const numSlides = slides.length;
+  const slides = [...block.children];
+  block.innerHTML = ''; // Clear existing content before restructuring
 
-  // Basic styling and setup
-  block.style.position = 'relative';
-  block.style.overflow = 'hidden';
-  block.style.maxWidth = '100%';
-  slides.forEach(slide => {
-    slide.style.position = 'absolute';
-    slide.style.top = '0';
-    slide.style.left = '0';
-    slide.style.width = '100%';
-    slide.style.height = '100%';
-    slide.style.opacity = '0';
-    slide.style.transition = 'opacity 0.5s ease-in-out';
-    slide.style.display = 'flex'; // Use flex to center content
-    slide.style.alignItems = 'center'; // Vertically center
-    slide.style.justifyContent = 'center'; // Horizontally center
-    slide.setAttribute('aria-hidden', 'true'); // Hide from screen readers
+  const slideContainer = document.createElement('div');
+  slideContainer.classList.add('slides-container');
+  slideContainer.setAttribute('role', 'group');
+  slideContainer.setAttribute('aria-roledescription', 'slide');
+
+  slides.forEach((slide, index) => {
+    slide.classList.add('slide');
+    slide.setAttribute('role', 'group'); // Slide itself can be a group
+    slide.setAttribute('aria-label', `Slide ${index + 1} of ${slides.length}`);
+    slide.setAttribute('aria-hidden', index !== 0 ? 'true' : 'false');
+    if (index !== 0) {
+      slide.style.display = 'none';
+    }
+
+    // Ensure the picture element is directly styled if needed or its parent
+    const picture = slide.querySelector('picture');
+    if (picture) {
+      picture.parentNode.classList.add('slide-image-wrapper');
+    }
+    // If there's text content alongside the image, wrap it
+    const contentDivs = slide.querySelectorAll(':scope > div:not(.slide-image-wrapper)');
+    if (contentDivs.length > 0) {
+      const textWrapper = document.createElement('div');
+      textWrapper.classList.add('slide-content-wrapper');
+      contentDivs.forEach(div => textWrapper.appendChild(div));
+      slide.appendChild(textWrapper);
+    }
+
+
+    slideContainer.appendChild(slide);
   });
 
-  // Ensure the first slide is visible initially
-  slides[currentSlide].style.opacity = '1';
-  slides[currentSlide].setAttribute('aria-hidden', 'false');
+  block.appendChild(slideContainer);
+  block.setAttribute('role', 'region');
+  block.setAttribute('aria-roledescription', 'carousel');
 
-  // Navigation buttons
+  let currentIndex = 0;
+
+  const showSlide = (index) => {
+    slides.forEach((slide, i) => {
+      const isActive = i === index;
+      slide.style.display = isActive ? '' : 'none';
+      slide.setAttribute('aria-hidden', !isActive ? 'true' : 'false');
+      // Eager load the first image, lazy load others
+      const img = slide.querySelector('img');
+      if (img) {
+        if (isActive && img.getAttribute('loading') === 'lazy') {
+             // Check if image is already loaded or loading initiated
+            if (!img.complete && img.getAttribute('data-src')) {
+                img.src = img.getAttribute('data-src');
+                img.removeAttribute('data-src');
+            }
+            img.loading = 'eager'; // Load current slide eagerly
+        }
+        // Consider preloading next/prev on interaction
+      }
+    });
+    currentIndex = index;
+  };
+
+  const nextSlide = () => {
+    const nextIndex = (currentIndex + 1) % slides.length;
+    showSlide(nextIndex);
+  };
+
+  const prevSlide = () => {
+    const prevIndex = (currentIndex - 1 + slides.length) % slides.length;
+    showSlide(prevIndex);
+  };
+
+  // Create Controls
+  const controlsContainer = document.createElement('div');
+  controlsContainer.classList.add('slider-controls');
+
   const prevButton = document.createElement('button');
-  prevButton.textContent = 'Previous';
   prevButton.classList.add('slider-button', 'slider-button-prev');
   prevButton.setAttribute('aria-label', 'Previous Slide');
+  prevButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>'; // Simple arrow
+  prevButton.addEventListener('click', prevSlide);
+
   const nextButton = document.createElement('button');
-  nextButton.textContent = 'Next';
   nextButton.classList.add('slider-button', 'slider-button-next');
   nextButton.setAttribute('aria-label', 'Next Slide');
+  nextButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>'; // Simple arrow
+  nextButton.addEventListener('click', nextSlide);
 
-  block.parentNode.appendChild(prevButton);
-  block.parentNode.appendChild(nextButton);
+  controlsContainer.appendChild(prevButton);
+  controlsContainer.appendChild(nextButton);
+  block.appendChild(controlsContainer);
 
-  // Button Styling
-  Object.assign(prevButton.style, {
-    position: 'absolute',
-    top: '50%',
-    left: '10px',
-    transform: 'translateY(-50%)',
-    zIndex: '10',
-    background: 'rgba(0, 0, 0, 0.5)',
-    color: 'white',
-    border: 'none',
-    padding: '10px 15px',
-    cursor: 'pointer',
-    borderRadius: '5px'
+  // Initial setup
+  showSlide(currentIndex);
+
+  // Optional: Add keyboard navigation
+  block.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') {
+      prevSlide();
+    }
+    if (e.key === 'ArrowRight') {
+      nextSlide();
+    }
   });
-
-  Object.assign(nextButton.style, {
-    position: 'absolute',
-    top: '50%',
-    right: '10px',
-    transform: 'translateY(-50%)',
-    zIndex: '10',
-    background: 'rgba(0, 0, 0, 0.5)',
-    color: 'white',
-    border: 'none',
-    padding: '10px 15px',
-    cursor: 'pointer',
-    borderRadius: '5px'
-  });
-
-  // Navigation functions
-  function showSlide(index) {
-    slides[currentSlide].style.opacity = '0';
-    slides[currentSlide].setAttribute('aria-hidden', 'true');
-    currentSlide = (index + numSlides) % numSlides; // Ensure index is within bounds
-    slides[currentSlide].style.opacity = '1';
-    slides[currentSlide].setAttribute('aria-hidden', 'false');
-  }
-
-  prevButton.addEventListener('click', () => {
-    showSlide(currentSlide - 1);
-  });
-
-  nextButton.addEventListener('click', () => {
-    showSlide(currentSlide + 1);
-  });
+  // Make the block focusable for keyboard nav
+  block.setAttribute('tabindex', '0');
 }
