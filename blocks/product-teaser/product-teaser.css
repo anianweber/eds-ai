@@ -1,0 +1,313 @@
+.product-teaser-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive columns */
+  gap: 16px;
+  padding: 16px 0;
+}
+
+.product-teaser-item {
+  border: 1px solid #eee;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  position: relative; /* Needed for absolute positioning of banner/button */
+  transition: box-shadow 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+    .to-product {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  .clickable-area {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Allows content to push actions down */
+  }
+
+  .promotion-banner {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    background-color: #d9534f; /* Red color similar to screenshot */
+    color: white;
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    z-index: 1;
+    border-radius: 0 3px 3px 0; /* Slightly rounded right corners */
+  }
+
+  .image-wrapper {
+    padding: 20px 20px 10px 20px;
+    text-align: center;
+    position: relative; /* Context for potential top-right icons */
+
+    img {
+      max-width: 100%;
+      height: 180px; /* Fixed height for alignment */
+      object-fit: contain;
+      display: inline-block;
+    }
+  }
+
+  .content-wrapper {
+    padding: 0 16px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .title {
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 0 0 4px 0;
+    color: #333;
+  }
+
+  .description {
+    font-size: 0.875rem;
+    color: #666;
+    margin: 0 0 10px 0;
+    line-height: 1.4;
+    height: calc(1.4em * 3); /* Approx 3 lines height */
+    overflow: hidden; /* Needed for text truncation */
+  }
+
+  .rating-wrapper {
+    font-size: 0.875rem;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    .stars {
+      color: #f0ad4e; /* Orange/yellow stars */
+      letter-spacing: 1px;
+    }
+
+    .count {
+      color: #777;
+      font-size: 0.8rem;
+    }
+  }
+
+  .energy-label-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+
+    .energy-label {
+      display: inline-block;
+      padding: 2px 15px 2px 8px;
+      color: #333;
+      font-weight: bold;
+      font-size: 0.8rem;
+      position: relative;
+      clip-path: polygon(0% 0%, 100% 0%, 90% 50%, 100% 100%, 0% 100%); /* Arrow shape */
+
+      /* Basic color classes - can be expanded */
+      &.energy-label-a {
+        background-color: #8bc34a; /* Green */
+      }
+      &.energy-label-b {
+        background-color: #cddc39; /* Lime */
+      }
+      /* Add more classes C, D, E, F, G with appropriate colors */
+      &.energy-label-d {
+        background-color: #ffeb3b; /* Yellow */
+      }
+    }
+
+    .datasheet-link {
+      font-size: 0.8rem;
+      color: #007bff;
+      text-decoration: underline;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .availability-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.875rem;
+    margin-bottom: 10px;
+
+    .icon {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    &.available {
+      color: #5cb85c; /* Green */
+      .icon {
+        background-color: #5cb85c;
+        /* Optional: Add checkmark SVG as background */
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>');
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 8px 8px;
+      }
+    }
+
+    &.unavailable {
+      color: #d9534f; /* Red */
+      .icon {
+        background-color: #d9534f;
+        /* Optional: Add cross SVG as background */
+      }
+    }
+  }
+
+  .price-section {
+    margin-top: auto; /* Push price to bottom if content varies */
+    padding: 0 16px 10px 16px;
+  }
+
+  .price-wrapper {
+    display: flex;
+    align-items: baseline; /* Align price and badge */
+    gap: 8px;
+    margin-bottom: 2px;
+  }
+
+  .price-current {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .price-discount-badge {
+    background-color: #d9534f; /* Red */
+    color: white;
+    padding: 2px 6px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    border-radius: 3px;
+  }
+
+  .price-strikethrough-wrapper {
+    margin-bottom: 4px;
+  }
+
+  .price-strikethrough-label {
+    font-size: 0.75rem;
+    color: #777;
+  }
+
+  .price-strikethrough {
+    font-size: 0.875rem;
+    color: #777;
+    text-decoration: line-through;
+  }
+
+  .price-composition {
+    font-size: 0.75rem;
+    color: #888;
+    margin: 0;
+  }
+
+  .actions-wrapper {
+    background-color: #f8f9fa; /* Light grey background */
+    padding: 10px 16px;
+    border-top: 1px solid #eee;
+  }
+
+  .compare-action {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .compare-checkbox {
+      margin: 0;
+      width: 16px;
+      height: 16px;
+      accent-color: #007bff; /* Style checkbox color */
+    }
+
+    .compare-label {
+      font-size: 0.875rem;
+      color: #555;
+      cursor: pointer;
+    }
+  }
+
+  .to-product {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: #007bff; /* Blue button */
+    color: white;
+    padding: 8px 12px;
+    border-radius: 50%; /* Make it round like the screenshot example */
+    text-decoration: none;
+    font-weight: bold;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 2;
+    display: flex; /* To center icon/text if needed */
+    align-items: center;
+    justify-content: center;
+    width: 40px; /* Fixed size for circle */
+    height: 40px;
+    /* Add arrow icon using SVG or pseudo-element if desired */
+    &::after { 
+      content: '→'; /* Simple arrow */
+      font-size: 1.2rem;
+    }
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .product-teaser-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Smaller min size */
+    gap: 12px;
+  }
+
+  .product-teaser-item {
+    .image-wrapper img {
+      height: 150px;
+    }
+
+    .title {
+      font-size: 0.9rem;
+    }
+
+    .description {
+      font-size: 0.8rem;
+      height: calc(1.4em * 2); /* Approx 2 lines height */
+    }
+
+    .price-current {
+      font-size: 1.1rem;
+    }
+
+    .to-product {
+      /* Optionally make button always visible or use different interaction on mobile */
+      /* Example: Always visible on mobile */
+      /* opacity: 1; */
+      /* visibility: visible; */
+      /* background-color: rgba(0, 123, 255, 0.8); */
+    }
+  }
+}
