@@ -1,171 +1,130 @@
 .teaser {
-  /* The block itself is mainly a container */
-}
-
-/* Style the wrapper link which acts as the card */
-.teaser > .teaser-link {
-  display: flex;
-  flex-direction: column;
-  height: 450px; /* Fixed height requirement */
-  border: 1px solid #e0e0e0; /* Light grey border */
-  border-radius: 8px; /* Rounded corners */
-  overflow: hidden; /* Ensure content clipping */
-  text-decoration: none;
-  color: inherit; /* Inherit text color */
-  background-color: #ffffff; /* White background */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08); /* Subtle shadow */
-  transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
-  position: relative; /* Context for potential absolute positioning inside */
-}
-
-/* Hover effect */
-.teaser > .teaser-link:hover {
-  transform: translateY(-5px); /* Lift effect */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12); /* Stronger shadow */
-}
-
-/* Image container */
-.teaser .teaser-image {
-  height: 220px; /* Proportion of fixed height for image */
-  flex-shrink: 0; /* Prevent shrinking */
-  overflow: hidden; /* Ensure image clipping */
-  position: relative; /* For potential overlays if needed */
-}
-
-/* Image/Picture styling */
-.teaser .teaser-image picture,
-.teaser .teaser-image img {
-  display: block;
-  width: 100%;
+  /* Ensure block takes up space if needed in a grid/flex context */
   height: 100%;
-  object-fit: cover; /* Cover the container area */
-  object-position: center; /* Center the image */
+
+  a.teaser-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Make link wrapper fill the block height */
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #fff;
+    transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .teaser-image {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9; /* Adjust aspect ratio if needed */
+      background-color: #f0f0f0; /* Placeholder bg */
+      overflow: hidden; /* Ensure image stays within bounds */
+
+      picture {
+        display: block; /* Ensure picture takes block space */
+        height: 100%;
+        width: 100%;
+      }
+
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+    }
+
+    .teaser-content {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1; /* Allow content to take remaining space */
+      justify-content: space-between; /* Pushes elements apart vertically */
+      min-height: 150px; /* Minimum height for content area, adjust as needed */
+    }
+
+    .teaser-headline {
+      h2 {
+        font-size: 1.5rem; /* ~24px */
+        font-weight: 700;
+        color: #333;
+        margin: 0 0 10px 0;
+        line-height: 1.3;
+      }
+    }
+
+    .teaser-body {
+      flex-grow: 1; /* Allow body to push CTA down */
+      margin-bottom: 15px;
+      p {
+        font-size: 1rem; /* ~16px */
+        color: #555;
+        margin: 0 0 10px 0;
+        line-height: 1.5;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        /* Optional: Add ellipsis for text overflow if strict height needed */
+        /*
+        display: -webkit-box;
+        -webkit-line-clamp: 3; // Limit to 3 lines
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        */
+      }
+    }
+
+    .teaser-cta {
+      font-size: 1rem; /* ~16px */
+      font-weight: 700;
+      color: #0d6efd; /* Standard blue link color */
+      text-decoration: none;
+      display: inline-block;
+      margin-top: auto; /* Pushes to bottom if body doesn't fill space */
+
+      &::after {
+        content: ' >';
+        display: inline-block;
+        margin-left: 4px;
+        transition: transform 0.2s ease-out;
+      }
+
+      &:hover::after {
+         transform: translateX(3px);
+      }
+    }
+  }
 }
 
-/* Content area */
-.teaser .teaser-content {
-  padding: 1.5rem; /* Padding inside the content area */
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1; /* Take remaining vertical space */
-  /* Ensure minimum space even if body is short */
-  justify-content: space-between; 
-}
+/* Example of responsive adjustments */
+@media (max-width: 768px) {
+  .teaser {
+    a.teaser-link {
+      .teaser-content {
+        padding: 15px;
+      }
 
-/* Headline styling */
-.teaser .teaser-headline {
-  font-size: 1.4rem; /* Example size */
-  font-weight: 700; /* Bold */
-  line-height: 1.3;
-  margin: 0 0 0.75rem 0; /* Bottom margin */
-  color: #222222; /* Dark text color */
-}
+      .teaser-headline h2 {
+        font-size: 1.3rem;
+      }
 
-/* Body text styling */
-.teaser .teaser-body {
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #555555; /* Medium grey text */
-  margin-bottom: 1rem; /* Space before CTA */
-  flex-grow: 1; /* Allow body to take available space before CTA pushes down */
+      .teaser-body p {
+        font-size: 0.95rem;
+      }
 
-  /* Optional: Limit text lines with ellipsis */
-  display: -webkit-box;
-  -webkit-line-clamp: 3; /* Limit to 3 lines */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  /* Ensure block display for webkit properties */
-  display: block; 
-  display: -webkit-box;
-}
-
-/* CTA element styling */
-.teaser .teaser-cta {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #005a9c; /* Example blue link color */
-  text-decoration: none;
-  margin-top: auto; /* Push to bottom */
-  padding-top: 0.5rem; /* Space above CTA */
-  display: inline-block; /* Allow pseudo-element positioning */
-  position: relative;
-  padding-right: 1.5em; /* Space for the arrow */
-  align-self: flex-start; /* Prevent stretching full width */
-}
-
-/* Arrow pseudo-element for CTA */
-.teaser .teaser-cta::after {
-  content: '→'; /* Simple arrow character */
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  transition: transform 0.2s ease;
-  font-weight: normal; /* Use normal weight for arrow symbol */
-}
-
-/* Move arrow slightly on card hover */
-.teaser > .teaser-link:hover .teaser-cta::after {
-   transform: translate(4px, -50%);
-}
-
-/* Responsive adjustments */
-@media (max-width: 991px) {
-  .teaser > .teaser-link {
-    /* Keep fixed height on medium screens? Or adjust? */
-    /* Example: height: 420px; */
-  }
-  .teaser .teaser-headline {
-    font-size: 1.3rem;
-  }
-}
-
-@media (max-width: 767px) {
-  .teaser > .teaser-link {
-    height: auto; /* Switch to auto height on smaller screens */
-    min-height: 400px; /* Optional minimum height */
-  }
-  .teaser .teaser-image {
-     height: 200px; /* Adjust image height */
-  }
-  .teaser .teaser-content {
-    padding: 1.25rem;
-  }
-  .teaser .teaser-headline {
-    font-size: 1.2rem;
-  }
-  .teaser .teaser-body {
-     font-size: 0.95rem;
-     -webkit-line-clamp: 3; /* Adjust line clamp if needed */
-  }
-  .teaser .teaser-cta {
-     font-size: 0.95rem;
-  }
-}
-
-@media (max-width: 479px) {
-  .teaser > .teaser-link {
-      min-height: 360px;
-  }
-  .teaser .teaser-image {
-    height: 180px;
-  }
-  .teaser .teaser-content {
-    padding: 1rem;
-  }
-  .teaser .teaser-headline {
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
-  }
-  .teaser .teaser-body {
-     font-size: 0.9rem;
-     line-height: 1.5;
-     margin-bottom: 0.75rem;
-     -webkit-line-clamp: 2;
-  }
-  .teaser .teaser-cta {
-     font-size: 0.9rem;
-     padding-top: 0.25rem;
+      .teaser-cta {
+        font-size: 0.95rem;
+      }
+    }
   }
 }
