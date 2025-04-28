@@ -1,0 +1,122 @@
+.teaser {
+  /* Parent container should control layout (e.g., grid/flex) and alignment */
+  height: 100%; /* Allow teaser to fill height set by parent */
+  display: block;
+}
+
+.teaser > .teaser-link-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Ensure link wrapper fills the teaser block */
+  border: 1px solid #e0e0e0; /* Light grey border */
+  border-radius: 8px;
+  background-color: var(--background-color, #ffffff);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+
+    .teaser-cta::after {
+      transform: translateX(4px);
+    }
+  }
+
+  .teaser-image {
+    width: 100%;
+    aspect-ratio: 3 / 2; /* Common aspect ratio, adjust if needed based on design */
+    background-color: #f0f0f0; /* Placeholder bg color */
+    overflow: hidden; /* Ensure image respects container bounds */
+
+    picture,
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    img {
+      object-fit: cover; /* Cover the area, cropping if necessary */
+    }
+  }
+
+  .teaser-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Allows content to push CTA down */
+  }
+
+  .teaser-headline {
+    font-size: var(--heading-font-size-s, 1.25rem); /* ~20px */
+    font-weight: 700; /* Bold */
+    color: var(--text-color, #111111);
+    margin: 0 0 12px 0;
+    line-height: 1.3;
+    /* Optional: Clamp multiline headlines */
+    /* display: -webkit-box; */
+    /* -webkit-line-clamp: 2; */
+    /* -webkit-box-orient: vertical; */
+    /* overflow: hidden; */
+  }
+
+  .teaser-body {
+    font-size: var(--body-font-size-s, 0.875rem); /* ~14px */
+    color: var(--text-color-secondary, #555555);
+    margin: 0 0 16px 0;
+    line-height: 1.5;
+    flex-grow: 1; /* Pushes CTA down */
+    /* Optional: Clamp multiline body */
+    /* display: -webkit-box; */
+    /* -webkit-line-clamp: 3; */
+    /* -webkit-box-orient: vertical; */
+    /* overflow: hidden; */
+  }
+
+  .teaser-cta {
+    margin-top: auto; /* Pushes to the bottom */
+    font-size: var(--body-font-size-s, 0.875rem);
+    font-weight: 700; /* Bold */
+    color: var(--link-color, #0d6efd);
+    text-decoration: none;
+    display: inline-flex; /* Use inline-flex for icon alignment */
+    align-items: center;
+    gap: 6px; /* Space between text and arrow */
+
+    &::after {
+      content: '';
+      display: inline-block;
+      width: 1em; /* Size relative to font size */
+      height: 1em;
+      background-color: currentColor; /* Use text color for the arrow */
+      /* SVG Chevron Right Icon */
+      mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="%23000"><path d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>');
+      mask-repeat: no-repeat;
+      mask-size: contain;
+      mask-position: center;
+      transition: transform 0.2s ease;
+    }
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .teaser > .teaser-link-wrapper {
+    .teaser-headline {
+      font-size: var(--heading-font-size-xs, 1.1rem);
+    }
+
+    .teaser-body,
+    .teaser-cta {
+      font-size: var(--body-font-size-xs, 0.85rem);
+    }
+
+    .teaser-content {
+      padding: 16px;
+    }
+  }
+}
