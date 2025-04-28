@@ -1,0 +1,351 @@
+.product-teaser-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px 0;
+}
+
+.product-teaser-item {
+  border: 1px solid #eee;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  position: relative; /* Needed for absolute positioned children */
+  transition: box-shadow 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+    /* Show 'To Product' button on hover (desktop only) */
+    @media (hover: hover) {
+      .to-product-button {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
+
+  .action-banner {
+    background-color: #dc3545; /* Red color similar to image */
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 4px 10px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+    border-radius: 3px;
+  }
+
+  .product-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1 / 1; /* Maintain square aspect ratio for image area */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f8f8; /* Light background for image area */
+
+    a.product-pdp-link {
+        display: block; /* Ensure link fills the container */
+        width: 100%;
+        height: 100%;
+        text-align: center;
+    }
+
+    picture img {
+      display: block;
+      max-width: 80%;
+      max-height: 80%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
+  }
+
+  .product-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    button {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid #ddd;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      padding: 0;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: #fff;
+      }
+
+      svg {
+        width: 20px;
+        height: 20px;
+        stroke: #555;
+      }
+    }
+  }
+
+  .to-product-button {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--link-color, #005faa); /* Use EDS variable or fallback */
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-decoration: none;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 3;
+  }
+
+  .product-details {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Allow details to fill remaining space */
+  }
+
+  .product-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0 0 5px 0;
+    color: #333;
+    line-height: 1.3;
+    a {
+        text-decoration: none;
+        color: inherit;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+  }
+
+  .product-description {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.4;
+    margin-bottom: 10px;
+    min-height: 2.8em; /* Reserve space for ~2 lines */
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+  }
+
+  .product-rating {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 10px;
+    /* Add star styling here if using actual star icons/font */
+  }
+
+  .energy-label-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+
+    .energy-label {
+      display: inline-block;
+      padding: 3px 15px 3px 8px;
+      color: #333;
+      font-weight: bold;
+      font-size: 0.9rem;
+      background: linear-gradient(to right, #fdd835 85%, transparent 85%); /* Example Yellow A */
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        border-top: 12px solid transparent;
+        border-bottom: 12px solid transparent;
+        border-right: 12px solid #fff; /* Match item background */
+      }
+
+      /* Add other classes based on fetched data */
+      &.energy-label-a {
+         background: linear-gradient(to right, #8BC34A 85%, transparent 85%); /* Green */
+      }
+      &.energy-label-b {
+         background: linear-gradient(to right, #C0CA33 85%, transparent 85%); /* Light Green */
+      }
+       &.energy-label-c {
+         background: linear-gradient(to right, #FDD835 85%, transparent 85%); /* Yellow */
+      }
+      /* Add more classes D, E, F, G as needed */
+    }
+
+    .energy-datasheet-link {
+      font-size: 0.8rem;
+      color: var(--link-color, #005faa);
+      text-decoration: underline;
+    }
+  }
+
+  .availability {
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    &.is-available {
+      color: #28a745; /* Green */
+      svg {
+        fill: #28a745;
+      }
+    }
+
+    &.is-unavailable {
+      color: #dc3545; /* Red */
+    }
+
+    svg {
+        width: 16px;
+        height: 16px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+  }
+
+  .price-info {
+    margin-top: auto; /* Push price to the bottom */
+    margin-bottom: 10px;
+
+    .price-main {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        margin-bottom: 3px;
+    }
+
+    .price-gross {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .discount-badge {
+      background-color: #dc3545;
+      color: white;
+      font-size: 0.8rem;
+      font-weight: bold;
+      padding: 3px 6px;
+      border-radius: 3px;
+    }
+
+    .price-strikethrough {
+      font-size: 0.9rem;
+      color: #888;
+      text-decoration: line-through;
+      display: block; /* Ensure it's on its own line if price-main wraps */
+      margin-bottom: 3px;
+    }
+
+    .price-composition {
+      font-size: 0.8rem;
+      color: #888;
+      margin: 0;
+    }
+  }
+
+  .compare-section {
+    background-color: #f8f9fa;
+    padding: 10px 15px;
+    border-top: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .compare-checkbox {
+      margin: 0;
+      width: 16px;
+      height: 16px;
+      accent-color: var(--link-color, #005faa);
+    }
+
+    .compare-label {
+      font-size: 0.9rem;
+      color: #333;
+      cursor: pointer;
+    }
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .product-teaser-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+  }
+
+  .product-teaser-item {
+    .product-details {
+      padding: 10px;
+    }
+    .product-title {
+        font-size: 1rem;
+    }
+    .product-description, .product-rating, .availability, .price-strikethrough, .price-composition, .compare-label {
+        font-size: 0.85rem;
+    }
+    .price-gross {
+        font-size: 1.2rem;
+    }
+    .compare-section {
+        padding: 8px 10px;
+    }
+    .product-actions button {
+        width: 32px;
+        height: 32px;
+        svg {
+            width: 18px;
+            height: 18px;
+        }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .product-teaser-grid {
+    /* Switch to single column or keep 2, depending on preference */
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
+    gap: 10px;
+  }
+   .product-teaser-item {
+        .product-title {
+            font-size: 0.9rem;
+        }
+        .price-gross {
+            font-size: 1.1rem;
+        }
+        /* Hide share button on very small screens maybe? */
+        .product-actions .action-share {
+            /* display: none; */
+        }
+   }
+}
