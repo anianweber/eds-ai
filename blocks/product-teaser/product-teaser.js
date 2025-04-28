@@ -1,314 +1,358 @@
-const MOCK_PRODUCT_DATA = {
-  'SKU-123': {
-    pdpUrl: '/products/pac-2010-sh',
-    imageUrl: 'https://placehold.co/400x400/f8f8f8/ccc?text=PAC+2010+SH',
-    title: 'PAC 2010 SH',
-    description: 'Lokales Klimagerät mit Heizfunktion und Luftfilter',
-    energyLabel: 'A',
-    energyRange: 'A+++ < D',
-    datasheetUrl: '/datasheets/pac-2010-sh.pdf',
-    availability: 'Verfügbar',
-    price: '84,00 €',
-    originalPrice: '119,00 €',
-    discountPercent: '30%',
-    priceComposition: 'inkl. MwSt. zzgl. Versandkosten',
-    promoBanner: '-25% Code: SUMMER',
-    rating: 4,
-    ratingCount: 31345,
-  },
-  'SKU-124': {
-    pdpUrl: '/products/pac-2010-sh-alt',
-    imageUrl: 'https://placehold.co/400x400/f8f8f8/ccc?text=PAC+2010+SH',
-    title: 'PAC 2010 SH',
-    description: 'Lokales Klimagerät mit Heizfunktion und Luftfilter',
-    energyLabel: 'A',
-    energyRange: 'A+++ < D',
-    datasheetUrl: '/datasheets/pac-2010-sh-alt.pdf',
-    availability: 'Verfügbar',
-    price: '84,00 €',
-    originalPrice: '119,00 €',
-    discountPercent: '30%',
-    priceComposition: 'inkl. MwSt. zzgl. Versandkosten',
-    promoBanner: '-25% Code: SUMMER',
-    rating: 4,
-    ratingCount: 31345,
-  },
-  'SKU-218': {
-    pdpUrl: '/products/pac-3500-pro',
-    imageUrl: 'https://placehold.co/400x400/f8f8f8/ccc?text=PAC+3500+PRO',
-    title: 'PAC 3500 PRO',
-    description: 'Mobiles Klimagerät für Profis und große Räume',
-    // No energy label for this one
-    availability: 'Verfügbar',
-    price: '399,95 €',
-    priceComposition: 'inkl. MwSt. zzgl. Versandkosten',
-    rating: 5,
-    ratingCount: 876,
-  },
-  'SKU-14894': {
-    pdpUrl: '/products/pac-2100-x',
-    imageUrl: 'https://placehold.co/400x400/f8f8f8/ccc?text=PAC+2100+X',
-    title: 'PAC 2100 X',
-    description: 'Kompaktes Klimagerät ideal für kleine Büros oder Schlafzimmer',
-    energyLabel: 'B',
-    energyRange: 'A+++ < D',
-    datasheetUrl: '/datasheets/pac-2100-x.pdf',
-    availability: 'Verfügbar',
-    price: '199,00 €',
-    priceComposition: 'inkl. MwSt. zzgl. Versandkosten',
-    rating: 3,
-    ratingCount: 10234,
-  },
-  'SKU-134': {
-    pdpUrl: '/products/some-other-product',
-    imageUrl: 'https://placehold.co/400x400/f8f8f8/ccc?text=Placeholder',
-    title: 'Another Product Title',
-    description: 'This is a description for another product, demonstrating variability.',
-    availability: 'Nicht verfügbar',
-    price: '49,50 €',
-    priceComposition: 'inkl. MwSt. zzgl. Versandkosten',
-    rating: 4,
-    ratingCount: 500,
-  },
-  'SKU-183': {
-    pdpUrl: '/products/special-offer',
-    imageUrl: 'https://placehold.co/400x400/f8f8f8/ccc?text=Special+Offer',
-    title: 'Special Offer Item',
-    description: 'Limited time offer with great features included.',
-    availability: 'Verfügbar',
-    price: '99,00 €',
-    originalPrice: '149,00 €',
-    discountPercent: '33%',
-    priceComposition: 'inkl. MwSt. zzgl. Versandkosten',
-    promoBanner: 'Angebot!',
-    rating: 5,
-    ratingCount: 120,
-  },
-};
+/**
+ * Mocks fetching product data for a given SKU.
+ * In a real scenario, this would call an API.
+ * @param {string} sku The product SKU.
+ * @returns {object|null} Product data or null if not found.
+ */
+async function fetchProductData(sku) {
+  // Simulate API call delay
+  // await new Promise((resolve) => setTimeout(resolve, 50));
 
-function fetchProductData(sku) {
-  // In a real scenario, this would be an API call
-  // await fetch(`/api/products/${sku}`)
-  return MOCK_PRODUCT_DATA[sku] || null;
+  const mockData = {
+    'SKU-123': {
+      title: 'PAC 2010 SH',
+      description: 'Lokales Klimagerät mit Heizfunktion und Luftfilter',
+      // Use a real placeholder service or a local placeholder image
+      imageUrl: 'https://via.placeholder.com/300x300.png/f8f8f8/cccccc?text=Product+Image',
+      pdpUrl: `/products/${sku}`,
+      energyLabel: {
+        class: 'A',
+        range: 'A+++ < D',
+        datasheetUrl: `/datasheets/${sku}.pdf`,
+      },
+      availability: true,
+      price: 84.00,
+      currency: '€',
+      strikethroughPrice: 119.00,
+      discountPercentage: 30,
+      priceComposition: 'inkl. MwSt. zzgl. Versandkosten',
+      actionBannerText: '-25% Code: SUMMER',
+      rating: { score: 4, count: 31345 }, // Example rating
+      compareText: 'Produkt vergleichen',
+    },
+    'SKU-124': {
+      title: 'PAC 2010 SH',
+      description: 'Lokales Klimagerät mit Heizfunktion und Luftfilter',
+      imageUrl: 'https://via.placeholder.com/300x300.png/f8f8f8/cccccc?text=Product+Image',
+      pdpUrl: `/products/${sku}`,
+       energyLabel: {
+        class: 'A',
+        range: 'A+++ < D',
+        datasheetUrl: `/datasheets/${sku}.pdf`,
+      },
+      availability: true,
+      price: 84.00,
+      currency: '€',
+      strikethroughPrice: 119.00,
+      discountPercentage: 30,
+      priceComposition: 'inkl. MwSt. zzgl. Versandkosten',
+      actionBannerText: '-25% Code: SUMMER',
+      rating: { score: 4, count: 31345 },
+      compareText: 'Produkt vergleichen',
+    },
+    'SKU-218': {
+      title: 'PAC 2010 SH',
+      description: 'Lokales Klimagerät mit Heizfunktion und Luftfilter',
+      imageUrl: 'https://via.placeholder.com/300x300.png/f8f8f8/cccccc?text=Product+Image',
+      pdpUrl: `/products/${sku}`,
+      // No energy label for this one
+      availability: true,
+      price: 84.00,
+      currency: '€',
+      // No discount
+      priceComposition: 'inkl. MwSt. zzgl. Versandkosten',
+      // No action banner
+      rating: { score: 4, count: 31345 },
+      compareText: 'Produkt vergleichen',
+    },
+    'SKU-14894': {
+        title: 'PAC 2010 SH',
+        description: 'Lokales Klimagerät mit Heizfunktion und Luftfilter',
+        imageUrl: 'https://via.placeholder.com/300x300.png/f8f8f8/cccccc?text=Product+Image',
+        pdpUrl: `/products/${sku}`,
+        // No energy label
+        availability: false, // Not available
+        price: 84.00,
+        currency: '€',
+        priceComposition: 'inkl. MwSt. zzgl. Versandkosten',
+        rating: { score: 4, count: 31345 },
+        compareText: 'Produkt vergleichen',
+      },
+    // Add more mock data as needed
+  };
+
+  // Simulate not finding a product
+  if (sku === 'SKU-134') return null;
+
+  // Default data if SKU not explicitly mocked
+  return mockData[sku] || {
+      title: `Product ${sku}`,
+      description: 'Standard product description goes here.',
+      imageUrl: 'https://via.placeholder.com/300x300.png/f8f8f8/cccccc?text=Product+Image',
+      pdpUrl: `/products/${sku}`,
+      availability: Math.random() > 0.3, // Random availability
+      price: (Math.random() * 100 + 50).toFixed(2),
+      currency: '€',
+      priceComposition: 'inkl. MwSt. zzgl. Versandkosten',
+      rating: { score: Math.floor(Math.random() * 3) + 3, count: Math.floor(Math.random() * 50000) },
+      compareText: 'Produkt vergleichen',
+    };
 }
 
-function truncateText(text, limit) {
-  if (!text) return '';
-  if (text.length <= limit) {
-    return text;
+/**
+ * Creates the HTML structure for a single product teaser card.
+ * @param {object} productData The product data.
+ * @param {number} descriptionMaxLength Max characters for description.
+ * @returns {HTMLElement} The teaser card element.
+ */
+function createTeaserCard(productData, descriptionMaxLength = 80) {
+  if (!productData) return null;
+
+  const card = document.createElement('div');
+  card.className = 'teaser-card';
+
+  // PDP Link - wraps image and text content later
+  const pdpLink = document.createElement('a');
+  pdpLink.href = productData.pdpUrl;
+  pdpLink.ariaLabel = `View details for ${productData.title}`;
+  pdpLink.className = 'pdp-link';
+
+  // Image Wrapper
+  const imageWrapper = document.createElement('div');
+  imageWrapper.className = 'image-wrapper';
+
+  // Optional Action Banner
+  if (productData.actionBannerText) {
+    const banner = document.createElement('div');
+    banner.className = 'action-banner';
+    banner.textContent = productData.actionBannerText;
+    card.appendChild(banner); // Banner is outside the link, above image
   }
-  return `${text.substring(0, limit).trim()}...`;
-}
 
-function renderRating(rating, count) {
-  if (typeof rating !== 'number' || rating < 0 || rating > 5) return '';
+  // Product Image
+  const img = document.createElement('img');
+  img.src = productData.imageUrl;
+  img.alt = productData.title; // Alt text for accessibility
+  img.loading = 'lazy'; // Lazy load images
+  imageWrapper.appendChild(img);
 
-  const starsContainer = document.createElement('div');
-  starsContainer.classList.add('product-rating');
-  starsContainer.setAttribute('aria-label', `Bewertung: ${rating} von 5 Sternen`);
+  // Hover Button (Desktop Only)
+  const hoverButton = document.createElement('span'); // Use span, style as button
+  hoverButton.className = 'to-product-button';
+  hoverButton.textContent = 'To Product';
+  hoverButton.setAttribute('role', 'button');
+  hoverButton.setAttribute('aria-hidden', 'true'); // Hide from screen readers initially, handled by CSS/hover
+  imageWrapper.appendChild(hoverButton);
 
-  for (let i = 1; i <= 5; i += 1) {
-    const star = document.createElement('span');
-    star.classList.add('star');
-    star.setAttribute('aria-hidden', 'true');
-    if (i <= rating) {
-      star.classList.add('filled');
-      star.textContent = '★'; // Filled star
-    } else {
-      star.textContent = '☆'; // Empty star
+  // --- Icons (Top Right - simplified example) ---
+  const iconsWrapper = document.createElement('div');
+  iconsWrapper.className = 'icons-wrapper';
+  // Wishlist Icon (example)
+  const wishlistButton = document.createElement('button');
+  wishlistButton.className = 'icon-button wishlist';
+  wishlistButton.ariaLabel = 'Add to wishlist';
+  wishlistButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>';
+  // Prevent link navigation when clicking icon buttons
+  wishlistButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      // Add wishlist logic here
+      alert('Wishlist clicked!');
+  });
+  iconsWrapper.appendChild(wishlistButton);
+  // Share Icon (example)
+   const shareButton = document.createElement('button');
+   shareButton.className = 'icon-button share';
+   shareButton.ariaLabel = 'Share product';
+   shareButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>';
+   shareButton.addEventListener('click', (e) => {
+       e.preventDefault();
+       e.stopPropagation();
+       // Add share logic here
+       alert('Share clicked!');
+   });
+  iconsWrapper.appendChild(shareButton);
+  card.appendChild(iconsWrapper); // Icons are outside the link, above image
+
+  // Content Wrapper
+  const contentWrapper = document.createElement('div');
+  contentWrapper.className = 'content-wrapper';
+
+  // Product Title
+  const title = document.createElement('h3');
+  title.className = 'product-title';
+  title.textContent = productData.title;
+  contentWrapper.appendChild(title);
+
+  // Product Description
+  const description = document.createElement('p');
+  description.className = 'product-description';
+  description.textContent = productData.description.length > descriptionMaxLength
+    ? `${productData.description.substring(0, descriptionMaxLength)}...`
+    : productData.description;
+  contentWrapper.appendChild(description);
+
+  // Rating (Example using stars)
+  if (productData.rating) {
+    const ratingWrapper = document.createElement('div');
+    ratingWrapper.className = 'rating-wrapper';
+    ratingWrapper.ariaLabel = `Rated ${productData.rating.score} out of 5 stars by ${productData.rating.count} users`;
+    for (let i = 1; i <= 5; i++) {
+      const star = document.createElement('span');
+      star.className = 'star';
+      star.innerHTML = i <= productData.rating.score ? '&#9733;' : '&#9734;'; // Filled or empty star
+      star.setAttribute('aria-hidden', 'true');
+      ratingWrapper.appendChild(star);
     }
-    starsContainer.appendChild(star);
+    const ratingCount = document.createElement('span');
+    ratingCount.className = 'rating-count';
+    ratingCount.textContent = ` (${productData.rating.count})`;
+    ratingCount.setAttribute('aria-hidden', 'true');
+    ratingWrapper.appendChild(ratingCount);
+    contentWrapper.appendChild(ratingWrapper);
   }
 
-  if (typeof count === 'number') {
-    const countSpan = document.createElement('span');
-    countSpan.classList.add('rating-count');
-    countSpan.textContent = `(${count.toLocaleString()})`;
-    starsContainer.appendChild(countSpan);
+  // Energy Label (if applicable)
+  if (productData.energyLabel) {
+    const energyWrapper = document.createElement('div');
+    energyWrapper.className = 'energy-label-wrapper';
+
+    const energyLabel = document.createElement('span');
+    energyLabel.className = `energy-label energy-label-${productData.energyLabel.class.toLowerCase()}`;
+    energyLabel.textContent = productData.energyLabel.class;
+
+    const energyRange = document.createElement('span');
+    energyRange.className = 'energy-range';
+    energyRange.textContent = productData.energyLabel.range;
+    energyLabel.appendChild(energyRange);
+
+    energyWrapper.appendChild(energyLabel);
+
+    const datasheetLink = document.createElement('a');
+    datasheetLink.href = productData.energyLabel.datasheetUrl;
+    datasheetLink.className = 'datasheet-link';
+    datasheetLink.textContent = 'Produktdatenblatt';
+    datasheetLink.target = '_blank'; // Open in new tab
+    datasheetLink.rel = 'noopener noreferrer';
+    datasheetLink.addEventListener('click', (e) => e.stopPropagation()); // Prevent card link navigation
+    energyWrapper.appendChild(datasheetLink);
+
+    contentWrapper.appendChild(energyWrapper);
   }
 
-  return starsContainer;
+  // Availability Badge
+  const availability = document.createElement('div');
+  availability.className = `availability ${productData.availability ? 'in-stock' : 'out-of-stock'}`;
+  const checkIcon = productData.availability ? '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>' : '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>';
+  availability.innerHTML = `${checkIcon} ${productData.availability ? 'Verfügbar' : 'Nicht verfügbar'}`;
+  contentWrapper.appendChild(availability);
+
+
+  // --- Price Section ---
+  const priceSection = document.createElement('div');
+  priceSection.className = 'price-section';
+
+  // Price Wrapper
+  const priceWrapper = document.createElement('div');
+  priceWrapper.className = 'price-wrapper';
+
+  const price = document.createElement('span');
+  price.className = 'price';
+  // Format price properly
+  price.textContent = `${productData.price.toFixed(2).replace('.', ',')} ${productData.currency}`;
+  priceWrapper.appendChild(price);
+
+  // Optional Discount Badge
+  if (productData.discountPercentage) {
+    const discountBadge = document.createElement('span');
+    discountBadge.className = 'discount-badge';
+    discountBadge.textContent = `-${productData.discountPercentage}%`;
+    priceWrapper.appendChild(discountBadge);
+  }
+  priceSection.appendChild(priceWrapper);
+
+  // Optional Strikethrough Price
+  if (productData.strikethroughPrice) {
+    const strikethrough = document.createElement('div'); // Use div for potential block layout
+    strikethrough.className = 'strikethrough-price';
+    strikethrough.textContent = `UVP ${productData.strikethroughPrice.toFixed(2).replace('.', ',')} ${productData.currency}`;
+    priceSection.appendChild(strikethrough);
+  }
+
+  // Price Composition
+  const priceComposition = document.createElement('p');
+  priceComposition.className = 'price-composition';
+  priceComposition.textContent = productData.priceComposition;
+  priceSection.appendChild(priceComposition);
+
+  contentWrapper.appendChild(priceSection);
+
+  // -- Clickable Area Setup --
+  pdpLink.appendChild(imageWrapper);
+  pdpLink.appendChild(contentWrapper);
+  card.appendChild(pdpLink);
+
+  // --- Comparison Section (Below clickable area) ---
+  const compareWrapper = document.createElement('div');
+  compareWrapper.className = 'compare-wrapper';
+
+  const compareLabel = document.createElement('label');
+  compareLabel.className = 'compare-label';
+
+  const compareCheckbox = document.createElement('input');
+  compareCheckbox.type = 'checkbox';
+  compareCheckbox.id = `compare-${productData.pdpUrl.split('/').pop()}`; // Unique ID
+  compareCheckbox.className = 'compare-checkbox';
+  compareCheckbox.setAttribute('aria-label', `Compare ${productData.title}`);
+
+  const compareText = document.createElement('span');
+  compareText.textContent = productData.compareText || 'Produkt vergleichen';
+
+  compareLabel.appendChild(compareCheckbox);
+  compareLabel.appendChild(compareText);
+  compareWrapper.appendChild(compareLabel);
+
+  card.appendChild(compareWrapper);
+
+  return card;
 }
 
-export default function decorate(block) {
-  const skuListContainer = block.querySelector(':scope > div > div');
-  if (!skuListContainer) return;
+/**
+ * Decorates the product teaser block.
+ * @param {HTMLElement} block The product teaser block element.
+ */
+export default async function decorate(block) {
+  const skuText = block.textContent.trim();
+  const skus = skuText.split(',').map(sku => sku.trim()).filter(sku => sku);
 
-  const skus = skuListContainer.textContent.split(',').map((sku) => sku.trim()).filter(Boolean);
-
-  // Clear the initial content
+  // Clear the initial content (the SKU list)
   block.innerHTML = '';
 
-  const wrapper = document.createElement('div');
-  wrapper.classList.add('product-teaser-items');
+  if (skus.length === 0) {
+    block.textContent = 'No product SKUs provided.';
+    return;
+  }
 
-  skus.forEach((sku) => {
-    const product = fetchProductData(sku);
-    if (!product) return; // Skip if no data found for SKU
+  block.classList.add('product-teaser-grid'); // Add class for grid layout
 
-    const item = document.createElement('div');
-    item.classList.add('product-teaser-item');
-
-    // --- PDP Link Area --- (Image + Title/Description)
-    const pdpLink = document.createElement('a');
-    pdpLink.href = product.pdpUrl;
-    pdpLink.classList.add('product-pdp-link');
-    pdpLink.setAttribute('aria-label', `Details zu ${product.title}`);
-
-    // --- Image Wrapper --- 
-    const imageWrapper = document.createElement('div');
-    imageWrapper.classList.add('product-image-wrapper');
-
-    if (product.promoBanner) {
-      const banner = document.createElement('div');
-      banner.classList.add('promo-banner');
-      banner.textContent = product.promoBanner;
-      item.appendChild(banner); // Banner sits above the image wrapper visually but outside the link
+  // Fetch data and create cards concurrently
+  const cardPromises = skus.map(async (sku) => {
+    const productData = await fetchProductData(sku);
+    if (productData) {
+      return createTeaserCard(productData);
     }
-
-    // Create Picture element (reusable approach)
-    const picture = document.createElement('picture');
-    const img = document.createElement('img');
-    img.src = product.imageUrl;
-    img.alt = product.title;
-    img.setAttribute('loading', 'lazy');
-    img.setAttribute('width', '250'); 
-    img.setAttribute('height', '250');
-    picture.appendChild(img);
-    imageWrapper.appendChild(picture);
-
-    const toProductButton = document.createElement('div');
-    toProductButton.classList.add('to-product-button');
-    toProductButton.textContent = 'zum Produkt';
-    toProductButton.setAttribute('aria-hidden', 'true'); // Hide from screen readers, link covers it
-    imageWrapper.appendChild(toProductButton);
-
-    pdpLink.appendChild(imageWrapper);
-
-    // --- Content Area --- 
-    const content = document.createElement('div');
-    content.classList.add('product-content');
-
-    const title = document.createElement('h3');
-    title.classList.add('product-title');
-    title.textContent = product.title;
-    content.appendChild(title);
-
-    const description = document.createElement('p');
-    description.classList.add('product-description');
-    description.textContent = truncateText(product.description, 60); // Apply character limit
-    content.appendChild(description);
-
-    // Append title and description to the link
-    pdpLink.appendChild(content);
-
-    // Elements below Title/Description are outside the main PDP Link
-    const infoBelowDescription = document.createElement('div');
-    infoBelowDescription.classList.add('product-info-below');
-
-    // Rating
-    const ratingElement = renderRating(product.rating, product.ratingCount);
-    if (ratingElement) {
-      infoBelowDescription.appendChild(ratingElement);
-    }
-
-    // Energy Label
-    if (product.energyLabel && product.datasheetUrl) {
-      const energyWrapper = document.createElement('div');
-      energyWrapper.classList.add('energy-label-wrapper');
-
-      const energyLabel = document.createElement('span');
-      energyLabel.classList.add('energy-label', `energy-label-${product.energyLabel.toLowerCase()}`);
-      energyLabel.textContent = product.energyLabel;
-      energyWrapper.appendChild(energyLabel);
-
-      if (product.energyRange) {
-        const energyRange = document.createElement('span');
-        energyRange.classList.add('energy-range');
-        energyRange.textContent = product.energyRange;
-        energyWrapper.appendChild(energyRange);
-      }
-
-      const datasheetLink = document.createElement('a');
-      datasheetLink.href = product.datasheetUrl;
-      datasheetLink.classList.add('datasheet-link');
-      datasheetLink.textContent = 'Produktdatenblatt';
-      datasheetLink.setAttribute('target', '_blank');
-      datasheetLink.setAttribute('rel', 'noopener noreferrer');
-      datasheetLink.setAttribute('aria-label', `Produktdatenblatt für ${product.title}`);
-      energyWrapper.appendChild(datasheetLink);
-
-      infoBelowDescription.appendChild(energyWrapper);
-    }
-
-    // Availability
-    const availability = document.createElement('div');
-    availability.classList.add('availability');
-    availability.classList.toggle('available', product.availability?.toLowerCase() === 'verfügbar');
-    availability.classList.toggle('unavailable', product.availability?.toLowerCase() !== 'verfügbar');
-    availability.textContent = product.availability;
-    infoBelowDescription.appendChild(availability);
-
-    // Price Info
-    const priceInfo = document.createElement('div');
-    priceInfo.classList.add('price-info');
-
-    const priceGross = document.createElement('span');
-    priceGross.classList.add('price-gross');
-    priceGross.textContent = product.price;
-    priceInfo.appendChild(priceGross);
-
-    if (product.discountPercent) {
-      const discountBadge = document.createElement('span');
-      discountBadge.classList.add('discount-badge');
-      discountBadge.textContent = `-${product.discountPercent}`; // Assuming format is '30%'
-      priceInfo.appendChild(discountBadge);
-    }
-
-    if (product.originalPrice) {
-      const priceOriginal = document.createElement('span');
-      priceOriginal.classList.add('price-original');
-      priceOriginal.textContent = `UVP ${product.originalPrice}`; // UVP assumed, adjust if needed
-      // Insert original price below the main price section
-      infoBelowDescription.appendChild(priceOriginal);
-    }
-
-    const priceComposition = document.createElement('span');
-    priceComposition.classList.add('price-composition');
-    priceComposition.textContent = product.priceComposition;
-    // Insert composition below original price (or main price if no original)
-    infoBelowDescription.appendChild(priceComposition);
-
-    // Append main price container after availability
-    infoBelowDescription.insertBefore(priceInfo, priceOriginal || priceComposition);
-
-
-    // --- Comparison --- 
-    const compareWrapper = document.createElement('div');
-    compareWrapper.classList.add('product-compare');
-
-    const compareId = `compare-${sku}-${Math.random().toString(36).substring(2, 7)}`;
-    const compareCheckbox = document.createElement('input');
-    compareCheckbox.type = 'checkbox';
-    compareCheckbox.id = compareId;
-    compareCheckbox.classList.add('compare-checkbox');
-    compareCheckbox.setAttribute('aria-label', `Produkt ${product.title} vergleichen`);
-
-    const compareLabel = document.createElement('label');
-    compareLabel.htmlFor = compareId;
-    compareLabel.classList.add('compare-label');
-    compareLabel.textContent = 'Produkt vergleichen';
-
-    compareWrapper.appendChild(compareCheckbox);
-    compareWrapper.appendChild(compareLabel);
-
-    // --- Assemble Teaser Item --- 
-    item.appendChild(pdpLink); // Appends image + title/description link
-    item.appendChild(infoBelowDescription); // Appends rating, energy, availability, prices
-    item.appendChild(compareWrapper);
-
-    wrapper.appendChild(item);
+    console.warn(`Could not fetch data for SKU: ${sku}`);
+    return null; // Return null for SKUs with no data
   });
 
-  block.appendChild(wrapper);
+  const cards = (await Promise.all(cardPromises)).filter(card => card !== null);
+
+  if (cards.length === 0) {
+      block.textContent = 'No valid product data found for the provided SKUs.';
+      return;
+  }
+
+  cards.forEach(card => {
+    block.appendChild(card);
+  });
 }
