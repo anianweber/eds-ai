@@ -1,0 +1,360 @@
+.product-teaser-item {
+  border: 1px solid #eee;
+  background-color: var(--background-color, #fff);
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Ensure items in a grid/row have same height */
+  position: relative;
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+    @media (min-width: 992px) {
+      .product-teaser-hover-button {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
+
+  .product-teaser-action-banner {
+    background-color: var(--product-teaser-banner-background, #dc3545);
+    color: var(--product-teaser-banner-color, #fff);
+    font-size: var(--body-font-size-xs, 0.8rem);
+    font-weight: bold;
+    padding: 0.25rem 0.75rem;
+    text-align: center;
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 2;
+    border-radius: 3px;
+  }
+
+  .product-teaser-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1 / 1; /* Maintain square aspect ratio, adjust as needed */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem; /* Add padding around the image */
+
+    .product-teaser-link {
+      display: block;
+      width: 100%;
+      height: 100%;
+      text-decoration: none;
+    }
+
+    .product-teaser-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform 0.3s ease;
+    }
+
+    &:hover .product-teaser-image {
+      transform: scale(1.05);
+    }
+
+    .product-teaser-image-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      background-color: #f0f0f0;
+      color: #aaa;
+      font-size: var(--body-font-size-s);
+    }
+
+    .product-teaser-top-buttons {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        z-index: 3;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        .product-teaser-button {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            padding: 0.4rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+
+            &:hover {
+                background-color: #fff;
+                border-color: #ccc;
+            }
+
+            svg {
+                width: 18px;
+                height: 18px;
+                fill: #555;
+            }
+        }
+    }
+
+    .product-teaser-hover-button {
+      position: absolute;
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--button-primary-background-color, #007bff);
+      color: var(--button-primary-text-color, #fff);
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 5px;
+      font-size: var(--body-font-size-s);
+      font-weight: bold;
+      text-decoration: none;
+      white-space: nowrap;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      z-index: 2;
+
+      &:hover {
+        background-color: var(--button-primary-hover-background-color, #0056b3);
+      }
+
+      @media (max-width: 991px) {
+        display: none; /* Hide on mobile/tablet */
+      }
+    }
+  }
+
+  .product-teaser-content {
+    padding: 0.5rem 1rem 1rem;
+    flex-grow: 1; /* Allow content to push pricing/actions down */
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .product-teaser-title {
+      font-size: var(--heading-font-size-xs); /* Use XS heading size */
+      font-weight: bold;
+      margin: 0 0 0.25rem;
+      line-height: 1.3;
+
+      .product-teaser-title-link {
+        color: inherit; /* Inherit color from h3 */
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .product-teaser-description {
+      font-size: var(--body-font-size-s);
+      color: var(--text-color-secondary, #555);
+      line-height: 1.4;
+      margin: 0;
+      /* CSS truncation (optional, JS handles it now) */
+      /* display: -webkit-box;
+      -webkit-line-clamp: 3; 
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis; */
+      /* Set a min-height to prevent jumpiness when description length varies */
+      min-height: calc(1.4em * 3); /* Adjust line count (3) based on typical content */
+    }
+
+    /* Hide description link visually but keep it for screen readers if needed, or remove if redundant */
+    .product-teaser-link {
+        text-decoration: none;
+        color: inherit;
+
+        &:focus {
+          outline: none; /* Optional: remove focus outline if parent link handles it */
+        }
+    }
+
+    .product-teaser-rating {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: var(--body-font-size-s);
+
+      .rating-stars {
+        color: var(--rating-star-color, #ffc107);
+        font-size: 1.1em;
+        letter-spacing: 1px;
+      }
+      .rating-count {
+        color: var(--text-color-secondary, #555);
+      }
+    }
+
+    .product-teaser-energy {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: var(--body-font-size-xs);
+
+      .energy-label {
+        display: inline-block;
+        padding: 0.1rem 0.8rem 0.1rem 0.5rem;
+        font-weight: bold;
+        color: black;
+        clip-path: polygon(0% 0%, 90% 0%, 100% 50%, 90% 100%, 0% 100%);
+        min-width: 40px; /* Ensure some width */
+        text-align: center;
+      }
+      /* Example colors - define these properly */
+      .energy-label-a { background-color: #34a853; }
+      .energy-label-b { background-color: #8bc34a; }
+      .energy-label-c { background-color: #cddc39; }
+      .energy-label-d { background-color: #ffeb3b; }
+      .energy-label-e { background-color: #ffc107; }
+      .energy-label-f { background-color: #ff9800; }
+      .energy-label-g { background-color: #f44336; }
+
+      .energy-datasheet-link {
+        color: var(--link-color, #007bff);
+        text-decoration: underline;
+        &:hover {
+          color: var(--link-hover-color, #0056b3);
+        }
+      }
+    }
+
+    .product-teaser-availability {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-size: var(--body-font-size-s);
+        font-weight: bold;
+
+        .icon {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            background-color: currentColor; /* Will inherit color */
+            mask-repeat: no-repeat;
+            mask-size: contain;
+            mask-position: center;
+        }
+
+        .icon-checkmark {
+            mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>');
+        }
+        /* Add .icon-unavailable if needed */
+
+        &.product-teaser-availability-in-stock {
+            color: var(--product-teaser-available-color, #28a745);
+        }
+        &.product-teaser-availability-out-of-stock {
+            color: var(--product-teaser-unavailable-color, #dc3545);
+        }
+        &.product-teaser-availability-unknown {
+            color: var(--text-color-secondary, #555);
+        }
+    }
+  }
+
+  .product-teaser-pricing {
+    padding: 0 1rem 1rem;
+    margin-top: auto; /* Push pricing to the bottom */
+
+    .product-teaser-price-line {
+        display: flex;
+        align-items: baseline; /* Align price and badge */
+        gap: 0.5rem;
+        margin-bottom: 0.2rem;
+    }
+
+    .product-teaser-price-gross {
+      font-size: var(--heading-font-size-s); /* Use S heading size */
+      font-weight: bold;
+      color: var(--text-color, #000);
+    }
+
+    .product-teaser-discount-badge {
+      background-color: var(--product-teaser-discount-background, #dc3545);
+      color: var(--product-teaser-discount-color, #fff);
+      font-size: var(--body-font-size-xs);
+      font-weight: bold;
+      padding: 0.2rem 0.5rem;
+      border-radius: 3px;
+    }
+
+    .product-teaser-price-strikethrough {
+      font-size: var(--body-font-size-s);
+      color: var(--text-color-secondary, #6c757d);
+      text-decoration: line-through;
+      display: block; /* Put on its own line below price line */
+      margin-bottom: 0.1rem;
+    }
+
+    .product-teaser-price-composition {
+      font-size: var(--body-font-size-xs);
+      color: var(--text-color-secondary, #6c757d);
+      margin: 0;
+    }
+  }
+
+  .product-teaser-actions {
+    background-color: var(--product-teaser-actions-background, #f8f9fa);
+    padding: 0.75rem 1rem;
+    border-top: 1px solid #eee;
+
+    .product-teaser-compare {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      .product-teaser-compare-checkbox {
+        margin: 0;
+        width: 1.1rem;
+        height: 1.1rem;
+        accent-color: var(--link-color, #007bff);
+        cursor: pointer;
+      }
+
+      .product-teaser-compare-label {
+        font-size: var(--body-font-size-s);
+        color: var(--text-color, #333);
+        cursor: pointer;
+        user-select: none; /* Prevent text selection on label click */
+      }
+    }
+  }
+}
+
+/* Responsive Adjustments (Example) */
+@media (max-width: 767px) {
+  .product-teaser-item {
+    .product-teaser-content {
+        padding: 0.5rem 0.75rem 0.75rem;
+        .product-teaser-title {
+            font-size: var(--body-font-size-m); /* Slightly smaller title on mobile */
+        }
+        .product-teaser-description {
+            font-size: var(--body-font-size-xs);
+             min-height: calc(1.4em * 2); /* Adjust for smaller font/less lines */
+        }
+    }
+    .product-teaser-pricing {
+        padding: 0 0.75rem 0.75rem;
+        .product-teaser-price-gross {
+            font-size: var(--body-font-size-l); /* Make price prominent */
+        }
+    }
+    .product-teaser-actions {
+        padding: 0.5rem 0.75rem;
+    }
+  }
+}
