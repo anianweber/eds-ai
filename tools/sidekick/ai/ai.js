@@ -48,14 +48,14 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="ai-mode-toggle">
         <span class="ai-toggle-label">Test</span>
         <label class="ai-toggle-switch">
-          <input type="checkbox" id="mode-toggle">
+          <input type="checkbox" id="mode-toggle" checked>
           <span class="ai-toggle-slider"></span>
         </label>
         <span class="ai-toggle-label">Production</span>
       </div>
       <form id="ai-form">
         <div class="ai-form-group">
-          <label for="ticket-number" class="ai-form-label">Ticket Number</label>
+          <label for="ticket-number" class="ai-form-label">Ticket Number (Branch Name)</label>
           <input type="text" id="ticket-number" name="ticketNumber" class="ai-form-input" required value="test-123">
         </div>
 
@@ -74,6 +74,26 @@ document.addEventListener('DOMContentLoaded', () => {
           <input type="file" id="design-file" name="designFile" class="ai-form-input">
         </div>
 
+        <div class="ai-form-group">
+          <button type="button" class="ai-collapsible-button">Developer Notes</button>
+          <div class="ai-collapsible-content">
+            <textarea id="developer-notes" name="developerNotes" rows="5" class="ai-form-textarea"></textarea>
+          </div>
+        </div>
+
+        <div class="ai-form-group">
+          <button type="button" class="ai-collapsible-button">Reference Files</button>
+          <div class="ai-collapsible-content">
+            <div id="reference-files-container">
+              <!-- Files will be added here dynamically -->
+            </div>
+            <div class="ai-link-input-group">
+              <input type="text" id="new-link-input" class="ai-form-input" placeholder="Add a reference file (e.g., /path/to/resource)">
+              <button type="button" id="add-link-button" class="ai-add-button">Add</button>
+            </div>
+          </div>
+        </div>
+
         <div class="ai-form-actions">
           <button type="button" id="cancel-button" class="ai-cancel-button">Cancel</button>
           <button type="submit" id="submit-button" class="ai-submit-button">Submit</button>
@@ -86,8 +106,13 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
 
       <div id="result-container" class="ai-result-container ai-hidden">
-        <p>Your request has been processed. Click the link below:</p>
-        <a id="result-link" href="#" target="_blank" class="ai-result-link"></a>
+        <div id="result-content">
+          <p>Your request has been processed. Click the link below:</p>
+          <a id="result-link" href="#" target="_blank" class="ai-result-link"></a>
+        </div>
+        <div>
+          <button type="button" id="back-button" class="ai-back-button">Back</button>
+        </div>
       </div>
     `;
 
@@ -103,6 +128,127 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('ai-form').addEventListener('submit', (e) => {
       e.preventDefault();
       submitForm();
+    });
+
+    // Add back button event listener
+    document.getElementById('back-button').addEventListener('click', () => {
+      // Hide result container
+      const resultContainer = document.getElementById('result-container');
+      resultContainer.classList.remove('ai-visible');
+      resultContainer.classList.add('ai-hidden');
+
+      // Show form again
+      const form = document.getElementById('ai-form');
+      form.classList.remove('ai-hidden');
+    });
+
+    // Setup collapsible sections
+    const collapsibleButtons = document.querySelectorAll('.ai-collapsible-button');
+    collapsibleButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        this.classList.toggle('active');
+        const content = this.nextElementSibling;
+        if (content.classList.contains('active')) {
+          content.classList.remove('active');
+          content.style.maxHeight = null;
+        } else {
+          content.classList.add('active');
+          content.style.maxHeight = content.scrollHeight + 'px';
+        }
+      });
+    });
+
+    // Setup reference files functionality
+    const addLinkButton = document.getElementById('add-link-button');
+    const newLinkInput = document.getElementById('new-link-input');
+    const linksContainer = document.getElementById('reference-files-container');
+
+    // Function to validate a link
+    async function validateLink(link) {
+      try {
+        // Check if link starts with a slash to ensure it's relative
+        if (!link.startsWith('/')) {
+          link = '/' + link;
+        }
+
+        // Get the current origin
+        const origin = window.location.origin;
+
+        // Try to fetch the link
+        const response = await fetch(origin + link, { method: 'HEAD' });
+        return response.ok;
+      } catch (error) {
+        console.error('Error validating link:', error);
+        return false;
+      }
+    }
+
+    // Function to add a link programmatically
+    const addLink = async (linkValue) => {
+      // Create link item
+      const linkItem = document.createElement('div');
+      linkItem.className = 'ai-link-item';
+
+      // Create link text element
+      const linkText = document.createElement('span');
+      linkText.className = 'ai-link-text';
+      linkText.textContent = linkValue;
+
+      // Create status element
+      const linkStatus = document.createElement('span');
+      linkStatus.className = 'ai-link-validating';
+      linkStatus.textContent = 'Validating...';
+
+      // Create remove button
+      const removeButton = document.createElement('button');
+      removeButton.className = 'ai-link-remove';
+      removeButton.textContent = '×';
+      removeButton.addEventListener('click', () => {
+        linkItem.remove();
+      });
+
+      // Add elements to link item
+      linkItem.appendChild(linkText);
+      linkItem.appendChild(linkStatus);
+      linkItem.appendChild(removeButton);
+
+      // Add link item to container
+      linksContainer.appendChild(linkItem);
+
+      // Create hidden input for form submission
+      const hiddenInput = document.createElement('input');
+      hiddenInput.type = 'hidden';
+      hiddenInput.name = 'referenceFiles[]';
+      hiddenInput.value = linkValue;
+      linkItem.appendChild(hiddenInput);
+
+      // Validate the link
+      const isValid = await validateLink(linkValue);
+
+      // Update status based on validation result
+      if (isValid) {
+        linkStatus.className = 'ai-link-valid';
+        linkStatus.textContent = 'Valid';
+      } else {
+        linkStatus.className = 'ai-link-invalid';
+        linkStatus.textContent = 'Invalid';
+      }
+    };
+
+    // Add default links
+    addLink('/scripts/aem.js');
+    addLink('/scripts/scripts.js');
+    addLink('/styles/styles.css');
+
+    // Function to add a new link from input
+    addLinkButton.addEventListener('click', async () => {
+      const linkValue = newLinkInput.value.trim();
+      if (!linkValue) return;
+
+      await addLink(linkValue);
+
+      // Clear input
+      newLinkInput.value = '';
     });
 
     // Function to handle form submission
@@ -150,7 +296,10 @@ document.addEventListener('DOMContentLoaded', () => {
         loadingSpinner.classList.add('ai-hidden');
         resultContainer.classList.remove('ai-hidden');
         resultContainer.classList.add('ai-visible');
-        resultContainer.innerHTML = '<p class="ai-error-message">An error occurred. Please try again.</p>';
+
+        // Update only the content part, preserving the back button
+        const resultContent = document.getElementById('result-content');
+        resultContent.innerHTML = '<p class="ai-error-message">An error occurred. Please try again.</p>';
       });
     }
   }
