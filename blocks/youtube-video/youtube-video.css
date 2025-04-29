@@ -1,0 +1,104 @@
+.youtube-video {
+  margin: 1rem 0; /* Adjust default margin as needed */
+
+  .youtube-video-container {
+    position: relative;
+    width: 100%;
+    /* Default to 16:9 aspect ratio using padding trick */
+    padding-bottom: 56.25%; /* (9 / 16 * 100) */
+    height: 0;
+    overflow: hidden;
+    background-color: #000; /* Black background while loading or if image fails */
+    cursor: pointer; /* Indicate the whole area is clickable */
+
+    /* Style the thumbnail image/picture */
+    picture,
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Cover the container */
+      display: block;
+      border: 0; /* Remove potential borders */
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    /* Play button overlay */
+    .youtube-video-play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 68px; /* Size based on typical YouTube play button */
+      height: 48px;
+      padding: 0;
+      border: none;
+      background-color: rgba(0, 0, 0, 0.65);
+      border-radius: 10px; /* Rounded corners */
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s ease;
+      z-index: 1; /* Ensure it's above the image */
+
+      svg {
+        fill: white;
+        width: 30px; /* Size of the play triangle */
+        height: 30px;
+        pointer-events: none; /* Prevent SVG from capturing clicks */
+      }
+
+      &:hover,
+      &:focus-visible { /* Use focus-visible for better accessibility */
+        background-color: rgba(255, 0, 0, 0.8); /* YouTube red on hover */
+        outline: none;
+      }
+    }
+
+    /* Style the iframe once loaded */
+    .youtube-video-iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+  }
+
+  /* Use aspect-ratio property where supported for a cleaner approach */
+  @supports (aspect-ratio: 16 / 9) {
+    .youtube-video-container {
+      padding-bottom: 0;
+      height: auto;
+      aspect-ratio: 16 / 9;
+
+      picture,
+      img,
+      .youtube-video-iframe {
+        position: static; /* Let aspect-ratio handle sizing */
+        height: auto; /* Adjust height automatically */
+      }
+
+      /* Need to re-apply absolute positioning for overlay elements */
+      .youtube-video-play-button {
+        position: absolute;
+      }
+    }
+  }
+
+  /* Responsive adjustments if needed */
+  @media (max-width: 600px) {
+    .youtube-video-container .youtube-video-play-button {
+      width: 50px;
+      height: 35px;
+      svg {
+        width: 22px;
+        height: 22px;
+      }
+    }
+  }
+}
