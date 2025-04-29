@@ -1,0 +1,82 @@
+.youtube-video {
+  margin: 1rem 0; /* Add some default spacing */
+}
+
+.youtube-video-container {
+  position: relative;
+  width: 100%;
+  /* Default aspect ratio 16:9 */
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background-color: #000; /* Black background while loading or if thumbnail fails */
+
+  &.video-loaded {
+    cursor: default;
+  }
+}
+
+.youtube-video-thumbnail-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  cursor: pointer;
+  border: none; /* Reset button default border */
+  padding: 0; /* Reset button default padding */
+  background: none; /* Reset button default background */
+
+  &:focus {
+    outline: 2px solid var(--link-hover-color, blue); /* Basic focus indicator */
+    outline-offset: 2px;
+  }
+}
+
+.youtube-video-thumbnail-container picture,
+.youtube-video-thumbnail-container .youtube-video-thumbnail {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: none;
+}
+
+.youtube-video-play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  pointer-events: none; /* Allows clicks to go through to the container */
+  transition: transform 0.1s ease-out, filter 0.1s ease-out;
+
+  circle {
+    transition: fill 0.1s ease-out;
+  }
+}
+
+.youtube-video-thumbnail-container:hover .youtube-video-play-icon,
+.youtube-video-thumbnail-container:focus .youtube-video-play-icon {
+  transform: translate(-50%, -50%) scale(1.1);
+  filter: brightness(1.2);
+
+  circle {
+     fill: rgba(0, 0, 0, 0.7);
+  }
+}
+
+.youtube-video-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Responsive adjustments if needed */
+@media (min-width: 600px) {
+  .youtube-video-play-icon {
+    width: 78px;
+    height: 78px;
+  }
+}
