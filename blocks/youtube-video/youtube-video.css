@@ -1,0 +1,119 @@
+.youtube-video {
+  /* Block container */
+  margin: var(--spacing-m) 0; /* Example margin, adjust as needed */
+  width: 100%;
+}
+
+.youtube-video-container {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 16 / 9; /* Default aspect ratio */
+  background-color: #000; /* Fallback background */
+  display: block; /* Ensure it takes block layout */
+
+  /* Style for when the thumbnail fails to load */
+  &.youtube-thumbnail-error {
+    /* Optional: Provide a visual cue like a different background or icon */
+    background-color: #333;
+  }
+
+  /* Style changes after the video iframe is loaded */
+  &.video-loaded {
+    cursor: default;
+    /* Iframe typically controls its own aspect ratio */
+    /* Remove aspect-ratio if iframe should resize freely or set height */
+  }
+
+  /* Make the container focusable */
+  &:focus {
+    outline: none; /* Remove default outline, we'll style the button's focus */
+  }
+
+  /* Style the focus indicator on the play button when container is focused */
+  &:focus-visible .youtube-video-play-button {
+    outline: 2px solid var(--color-accent, blue); /* Use theme color or default */
+    outline-offset: 2px;
+  }
+
+  /* Thumbnail image styling */
+  picture,
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cover the area, might crop */
+    display: block; /* Remove extra space below img */
+    border: none; /* Ensure no border */
+  }
+}
+
+.youtube-video-play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1; /* Above the thumbnail */
+
+  /* Button appearance */
+  background-color: rgba(0, 0, 0, 0.65); /* Semi-transparent black */
+  border: none;
+  border-radius: 50%; /* Circular shape */
+  padding: 0;
+  cursor: pointer;
+  width: 68px; /* Size of the button */
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  color: #fff; /* Color for the SVG icon */
+
+  svg {
+    width: 50%; /* Scale SVG icon within the button */
+    height: 50%;
+    pointer-events: none; /* Prevent SVG from interfering with clicks */
+    display: block; /* Ensure SVG behaves predictably */
+    fill: currentColor; /* Use the button's color */
+  }
+
+  /* Hover effect */
+  .youtube-video-container:hover & {
+    background-color: rgba(0, 0, 0, 0.8); /* Darker on hover */
+    transform: translate(-50%, -50%) scale(1.1); /* Slight scale effect */
+  }
+
+  /* Focus style (managed by container focus-visible) */
+  &:focus {
+    outline: none; /* Let the container's focus-visible handle the outline */
+  }
+}
+
+.youtube-video-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none; /* Remove default iframe border */
+}
+
+/* Error state for the block */
+.youtube-video-error {
+  padding: var(--spacing-m);
+  background-color: var(--color-background-error, #fdd);
+  border: 1px solid var(--color-border-error, #f00);
+  color: var(--color-text-error, #c00);
+  text-align: center;
+}
+
+/* Optional: Smaller button on smaller screens */
+@media (max-width: 600px) {
+  .youtube-video-play-button {
+    width: 50px;
+    height: 50px;
+  }
+}
