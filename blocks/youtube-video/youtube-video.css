@@ -1,0 +1,94 @@
+.youtube-video {
+  margin: var(--spacing-m) 0;
+
+  .youtube-video-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    aspect-ratio: 16 / 9; /* Default aspect ratio */
+    background-color: #000;
+    cursor: pointer;
+    display: flex; /* Needed for potential centering if image fails */
+    justify-content: center; /* Center fallback content/color */
+    align-items: center; /* Center fallback content/color */
+
+    picture,
+    img {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Cover the container */
+      border: 0; /* Remove potential borders */
+    }
+
+    .youtube-play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      background-color: rgba(0, 0, 0, 0.6);
+      border: none;
+      border-radius: 50%;
+      padding: 0;
+      cursor: pointer;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px; /* Adjust size as needed */
+      height: 64px; /* Adjust size as needed */
+
+      svg {
+        width: 32px; /* Adjust icon size */
+        height: 32px; /* Adjust icon size */
+        fill: #fff;
+        transition: transform 0.2s ease;
+        margin-left: 4px; /* Nudge play icon slightly right for visual centering */
+      }
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+        transform: translate(-50%, -50%) scale(1.1);
+      }
+    }
+
+    iframe.youtube-iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none; /* Ensure no border on iframe */
+    }
+
+    /* Remove play button styles when video is loaded */
+    &.video-loaded {
+      cursor: default;
+      .youtube-play-button {
+        display: none;
+      }
+    }
+  }
+}
+
+/* Responsive adjustments if needed */
+@media (max-width: 600px) {
+  .youtube-video {
+    .youtube-video-container {
+      .youtube-play-button {
+        width: 50px;
+        height: 50px;
+
+        svg {
+          width: 24px;
+          height: 24px;
+          margin-left: 3px;
+        }
+      }
+    }
+  }
+}
