@@ -1,0 +1,89 @@
+.youtube-video {
+  /* Default margin for spacing */
+  margin: var(--spacing-m) 0;
+
+  .youtube-video-container {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    /* Default aspect ratio (16:9) */
+    aspect-ratio: 16 / 9;
+    background-color: #f0f0f0; /* Light gray background while loading or if no thumbnail */
+    display: flex; /* Use flex to center content if needed, e.g., error messages */
+    justify-content: center;
+    align-items: center;
+
+    /* Style for the picture and img elements */
+    picture,
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Cover the container, might crop */
+      border: none;
+      position: absolute; /* Position within the container */
+      top: 0;
+      left: 0;
+    }
+
+    /* Style for the play button */
+    .youtube-video-play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      width: 72px; /* SVG dimensions */
+      height: 72px;
+      color: rgba(0, 0, 0, 0.7); /* Circle color and opacity */
+      transition: transform 0.15s ease-out, color 0.15s ease-out;
+      z-index: 1; /* Ensure button is above the thumbnail */
+
+      /* Hover and focus states for the button */
+      &:hover,
+      &:focus-visible {
+        transform: translate(-50%, -50%) scale(1.1);
+        color: rgba(0, 0, 0, 0.9);
+        outline: none; /* Remove default outline */
+      }
+
+      /* Style for the SVG icon */
+      svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+        filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
+
+        /* Style for the inner play triangle */
+        path[fill='#FFF'] {
+          transition: fill-opacity 0.15s ease-out;
+        }
+      }
+
+      &:hover svg path[fill='#FFF'],
+      &:focus-visible svg path[fill='#FFF'] {
+        fill-opacity: 0.9;
+      }
+    }
+
+    /* Style for the iframe once loaded */
+    .youtube-video-iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none; /* Ensure no border */
+    }
+
+    /* Remove aspect ratio padding when video is loaded */
+    &.video-loaded {
+      aspect-ratio: auto; /* Let iframe control aspect ratio */
+      padding-bottom: 0;
+      background-color: #000; /* Black background for letterboxing if needed */
+    }
+  }
+}
